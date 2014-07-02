@@ -67,7 +67,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
-_(Nothing yet)_
+* **0.1.0**: Initial release (*02/07/14*)
 
 ### TODO
     
