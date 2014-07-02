@@ -67,6 +67,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+* **0.1.1**: Fix *rounding* issue for minutes (*02/07/14*)
 * **0.1.0**: Initial release (*02/07/14*)
 
 ### TODO

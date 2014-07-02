@@ -1,6 +1,6 @@
 {
   "name": "tankipas",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Compute approximate development time spent on a project, using logs from version control system.",
   "keywords": [
     "commandline",
