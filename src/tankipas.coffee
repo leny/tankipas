@@ -24,10 +24,11 @@ pkg = require "../package.json"
 tankipas
     .version pkg.version
     .usage "[options]"
-    .description "Compute approximate development time passed on a project, using logs from version control system."
+    .description "Compute approximate development time spent on a project, using logs from version control system."
     .option "-s, --system <system>", "force the version system to analyse (by default, try to guess)"
     .option "-g, --gap <amount>", "number of minutes above wich the time between two commits is ignored in the total.", 120
     .option "-u, --user <user>", "use only the commits of the given user."
+    .option "-r, --raw", "show raw result, as number of minutes spent on the project."
     .parse process.argv
 
 # --- get path
@@ -87,6 +88,9 @@ exec sCommand, { maxBuffer: 1048576 }, ( oError, sStdOut, sStdErr ) ->
     iTotal /= 1000
     iMinutes = if ( iMinutes = Math.floor( iTotal / 60 ) ) > 60 then Math.floor( iMinutes / 60 ) % 60 else iMinutes
     iHours = Math.floor iTotal / 3600
-    sUserString = if sUser then " (for #{ chalk.cyan( sUser ) })" else ""
-    console.log chalk.green( "✔" ), "Time elapsed on project#{ sUserString }: ±#{ chalk.yellow( iHours ) } hours & #{ chalk.yellow( iMinutes ) } minutes."
+    if tankipas.raw
+        console.log iTotal
+    else
+        sUserString = if sUser then " (for #{ chalk.cyan( sUser ) })" else ""
+        console.log chalk.green( "✔" ), "Time spent on project#{ sUserString }: ±#{ chalk.yellow( iHours ) } hours & #{ chalk.yellow( iMinutes ) } minutes."
     process.exit 0
