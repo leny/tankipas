@@ -40,3 +40,11 @@ sSystem = "git" if tankipas.system?.toLowerCase() in [ "git", "github" ]
 unless sSystem # no system given, try to guess
     sSystem = "mercurial" if fs.existsSync "#{ sRepoPath }/.hg"
     sSystem = "git" if fs.existsSync "#{ sRepoPath }/.git"
+
+# --- get gap
+
+iGap = +tankipas.gap
+
+if isNaN iGap
+    console.log error "✘ gap must be a number, '#{ tankipas.gap }' given."
+    process.exit 1
