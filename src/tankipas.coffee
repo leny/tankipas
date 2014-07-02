@@ -48,3 +48,7 @@ iGap = +tankipas.gap
 if isNaN iGap
     console.log error "✘ gap must be a number, '#{ tankipas.gap }' given."
     process.exit 1
+
+# --- get user
+
+sUser = tankipas.user ? no
