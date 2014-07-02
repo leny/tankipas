@@ -14,6 +14,7 @@ tankipas = require "commander"
 fs = require "fs"
 path = require "path"
 chalk = require "chalk"
+which = require( "which" ).sync
 error = chalk.bold.red
 success = chalk.bold.green
 
@@ -34,12 +35,18 @@ sRepoPath = path.resolve process.cwd(), ( tankipas.args[ 0 ] ? "." )
 
 # --- get system
 
-sSystem = "mercurial" if tankipas.system?.toLowerCase() in [ "mercurial", "hg" ]
+sSystem = "hg" if tankipas.system?.toLowerCase() in [ "mercurial", "hg" ]
 sSystem = "git" if tankipas.system?.toLowerCase() in [ "git", "github" ]
 
 unless sSystem # no system given, try to guess
-    sSystem = "mercurial" if fs.existsSync "#{ sRepoPath }/.hg"
+    sSystem = "hg" if fs.existsSync "#{ sRepoPath }/.hg"
     sSystem = "git" if fs.existsSync "#{ sRepoPath }/.git"
+
+try
+    which sSystem
+catch oError
+    console.log error "✘ '#{ sSystem }' must be accessible in PATH."
+    process.exit 1
 
 # --- get gap
 
