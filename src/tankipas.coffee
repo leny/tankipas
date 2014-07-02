@@ -22,7 +22,7 @@ pkg = require "../package.json"
 
 tankipas
     .version pkg.version
-    .usage "[options] /path/to/repo/"
+    .usage "[options]"
     .description "Compute approximate development time passed on a project, using logs from version control system."
     .option "-s, --system <system>", "force the version system to analyse (by default, try to guess)"
     .option "-g, --gap <amount>", "number of minutes above wich the time between two commits is ignored in the total.", 120
@@ -31,7 +31,7 @@ tankipas
 
 # --- get path
 
-sRepoPath = path.resolve process.cwd(), ( tankipas.args[ 0 ] ? "." )
+sRepoPath = process.cwd()
 
 # --- get system
 
