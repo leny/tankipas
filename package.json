@@ -8,6 +8,8 @@
     "terminal",
     "time",
     "elapsed",
+    "workingtime",
+    "spent",
     "tracker",
     "timetracking"
   ],
