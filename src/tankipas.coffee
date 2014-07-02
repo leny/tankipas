@@ -13,8 +13,9 @@
 tankipas = require "commander"
 fs = require "fs"
 path = require "path"
-chalk = require "chalk"
+exec = require( "child_process" ).exec
 which = require( "which" ).sync
+chalk = require "chalk"
 error = chalk.bold.red
 success = chalk.bold.green
 
@@ -59,3 +60,33 @@ if isNaN iGap
 # --- get user
 
 sUser = tankipas.user ? no
+
+# --- build command
+
+sUserFilter = ""
+sUserFilter = "-u #{ sUser }" if sUser and sSystem is "hg"
+sUserFilter = "--author #{ sUser }" if sUser and sSystem is "git"
+
+sCommand = "#{ sSystem } log #{ sUserFilter }"
+
+# --- exec command
+
+exec sCommand, { maxBuffer: 1048576 }, ( oError, sStdOut, sStdErr ) ->
+    if oError
+        console.log error "✘ #{ oError }."
+        process.exit 1
+    iTotal = 0
+    iPrevStamp = null
+    iGap *= 60000
+    sDateFilter = if sSystem is "git" then "Date:" else "date:"
+    for sLine in sStdOut.split( require( "os" ).EOL ).reverse()
+        if sLine.search( sDateFilter ) isnt -1
+            iCurrentStamp = ( new Date( sLine.substr( sDateFilter ).trim() ) ).getTime()
+            iTotal += iDifference if iPrevStamp and iPrevStamp < iCurrentStamp and ( iDifference = iCurrentStamp - iPrevStamp ) < iGap
+            iPrevStamp = iCurrentStamp
+    iTotal /= 1000
+    iMinutes = if ( iMinutes = Math.floor( iTotal / 60 ) ) > 60 then Math.floor( iMinutes / 60 ) % 60 else iMinutes
+    iHours = Math.floor iTotal / 3600
+    sUserString = if sUser then " (for #{ chalk.cyan( sUser ) })" else ""
+    console.log chalk.green( "✔" ), "Time elapsed on project#{ sUserString }: ±#{ chalk.yellow( iHours ) } hours & #{ chalk.yellow( iMinutes ) } minutes."
+    process.exit 0
