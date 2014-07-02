@@ -1,0 +1,55 @@
+{
+  "name": "tankipas",
+  "version": "0.0.1",
+  "description": "Compute approximate development time passed on a project, using logs from version control system.",
+  "keywords": [
+    "commandline",
+    "cli",
+    "terminal",
+    "time",
+    "elapsed",
+    "tracker",
+    "timetracking"
+  ],
+  "homepage": "https://github.com/leny/tankipas",
+  "author": {
+    "name": "leny",
+    "email": "info@flatland.be",
+    "url": "http://leny.me"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/leny/tankipas.git"
+  },
+  "bugs": {
+    "url": "https://github.com/leny/tankipas/issues"
+  },
+  "licenses": [
+    {
+      "type": "MIT",
+      "url": "https://github.com/leny/tankipas/blob/master/LICENSE-MIT"
+    }
+  ],
+  "bin": {
+    "tankipas": "lib/tankipas.js"
+  },
+  "engines": {
+    "node": ">= 0.10.0"
+  },
+  "scripts": {
+    "test": "grunt nodeunit"
+  },
+  "devDependencies": {
+    "grunt": "^0.4.5",
+    "grunt-contrib-coffee": "^0.10.1",
+    "grunt-coffeelint": "0.0.10",
+    "matchdep": "^0.3.0",
+    "grunt-clear": "^0.2.1",
+    "grunt-contrib-watch": "^0.6.1",
+    "grunt-contrib-concat": "^0.4.0"
+  },
+  "dependencies": {
+    "commander": "^2.2.0",
+    "chalk": "^0.4.0"
+  }
+}
