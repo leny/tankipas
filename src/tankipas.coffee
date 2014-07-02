@@ -15,6 +15,13 @@ fs = require "fs"
 path = require "path"
 exec = require( "child_process" ).exec
 which = require( "which" ).sync
+( spinner = require "simple-spinner" )
+    .change_sequence [
+        "◓"
+        "◑"
+        "◒"
+        "◐"
+    ]
 chalk = require "chalk"
 error = chalk.bold.red
 success = chalk.bold.green
@@ -72,7 +79,9 @@ sCommand = "#{ sSystem } log #{ sUserFilter }"
 
 # --- exec command
 
+spinner.start 50
 exec sCommand, { maxBuffer: 1048576 }, ( oError, sStdOut, sStdErr ) ->
+    spinner.stop()
     if oError
         console.log error "✘ #{ oError }."
         process.exit 1
