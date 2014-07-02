@@ -74,6 +74,9 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
     
 - [ ] add progress indicator
 - [ ] `AMD` version
+- [ ] allow to give one or multiple paths
+- [ ] deprecate `grunt-elapsed` module and create `grunt-tankipas`
+- [ ] add support for **svn**
 
 ## License
 Copyright (c) 2014 Leny  
