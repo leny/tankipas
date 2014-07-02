@@ -28,3 +28,7 @@ tankipas
     .option "-u, --user <user>", "use only the commits of the given user."
     .parse process.argv
 
+# --- get path
+
+sRepoPath = path.resolve process.cwd(), ( tankipas.args[ 0 ] ? "." )
+
