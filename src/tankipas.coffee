@@ -69,5 +69,4 @@ module.exports = ( sRepoPath, oOptions = {}, fNext = null ) ->
                 iCurrentStamp = ( new Date( sLine.substr( sDateFilter ).trim() ) ).getTime()
                 iTotal += iDifference if iPrevStamp and iPrevStamp < iCurrentStamp and ( iDifference = iCurrentStamp - iPrevStamp ) < iGap
                 iPrevStamp = iCurrentStamp
-        iTotal /= 1000
         fNext? null, iTotal

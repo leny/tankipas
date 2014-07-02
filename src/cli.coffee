@@ -72,6 +72,7 @@ require( "./tankipas.js" ) sPath, oOptions, ( oError, iTotal ) ->
     if program.raw
         console.log iTotal
     else
+        iTotal /= 1000
         iMinutes = if ( iMinutes = Math.floor( iTotal / 60 ) ) > 60 then ( iMinutes % 60 ) else iMinutes
         iHours = Math.floor iTotal / 3600
         sUserString = if sUser then " (for #{ chalk.cyan( sUser ) })" else ""
