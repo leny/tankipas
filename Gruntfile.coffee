@@ -57,8 +57,8 @@ module.exports = ( grunt ) ->
       options:
         banner: "#!/usr/bin/env node"
       lib:
-        src: "lib/tankipas.js"
-        dest: "lib/tankipas.js"
+        src: "lib/cli.js"
+        dest: "lib/cli.js"
     watch:
       lib:
         files: [

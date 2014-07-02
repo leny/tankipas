@@ -2,7 +2,7 @@
  * tankipas
  * https://github.com/leny/tankipas
  *
- * JS/COFFEE Document - /tankipas.js - main entry point, commander setup and runner
+ * JS/COFFEE Document - /tankipas.js - module entry point
  *
  * Copyright (c) 2014 Leny
  * Licensed under the MIT license.
@@ -10,96 +10,64 @@
 
 "use strict"
 
-tankipas = require "commander"
-fs = require "fs"
-path = require "path"
-exec = require( "child_process" ).exec
 which = require( "which" ).sync
-( spinner = require "simple-spinner" )
-    .change_sequence [
-        "◓"
-        "◑"
-        "◒"
-        "◐"
-    ]
-chalk = require "chalk"
-error = chalk.bold.red
-success = chalk.bold.green
+fs = require "fs"
+exec = require( "child_process" ).exec
 
-pkg = require "../package.json"
+module.exports = ( sRepoPath, oOptions = {}, fNext = null ) ->
 
-tankipas
-    .version pkg.version
-    .usage "[options]"
-    .description "Compute approximate development time spent on a project, using logs from version control system."
-    .option "-s, --system <system>", "force the version system to analyse (by default, try to guess)"
-    .option "-g, --gap <amount>", "number of minutes above wich the time between two commits is ignored in the total.", 120
-    .option "-u, --user <user>", "use only the commits of the given user."
-    .option "-r, --raw", "show raw result, as number of minutes spent on the project."
-    .parse process.argv
+    # check path
 
-# --- get path
+    return fNext? new Error( "Repository Path doesn't exists!" ) unless fs.existsSync sRepoPath
 
-sRepoPath = process.cwd()
+    # parse arguments
 
-# --- get system
+    if oOptions instanceof Function and fNext is null
+        fNext = oOptions
+        oOptions = {}
 
-sSystem = "hg" if tankipas.system?.toLowerCase() in [ "mercurial", "hg" ]
-sSystem = "git" if tankipas.system?.toLowerCase() in [ "git", "github" ]
+    sSystem = oOptions.system
+    iGap = +oOptions.gap ? 120
+    sUser = oOptions.user
 
-unless sSystem # no system given, try to guess
-    sSystem = "hg" if fs.existsSync "#{ sRepoPath }/.hg"
-    sSystem = "git" if fs.existsSync "#{ sRepoPath }/.git"
+    # check system
 
-try
-    which sSystem
-catch oError
-    console.log error "✘ '#{ sSystem }' must be accessible in PATH."
-    process.exit 1
+    sSystem = "hg" if fs.existsSync "#{ sRepoPath }/.hg" unless sSystem
+    sSystem = "git" if fs.existsSync "#{ sRepoPath }/.git" unless sSystem
 
-# --- get gap
+    return fNext? new Error( "No system given!" ) unless sSystem
 
-iGap = +tankipas.gap
+    try
+        which sSystem
+    catch oError
+        fNext? oError
 
-if isNaN iGap
-    console.log error "✘ gap must be a number, '#{ tankipas.gap }' given."
-    process.exit 1
+    # check gap
 
-# --- get user
+    return fNext? new Error( "Gap must be a Number!" ) if isNaN iGap
 
-sUser = tankipas.user ? no
+    # build command
 
-# --- build command
+    sUserFilter = ""
+    sUserFilter = "-u #{ sUser }" if sUser and sSystem is "hg"
+    sUserFilter = "--author #{ sUser }" if sUser and sSystem is "git"
 
-sUserFilter = ""
-sUserFilter = "-u #{ sUser }" if sUser and sSystem is "hg"
-sUserFilter = "--author #{ sUser }" if sUser and sSystem is "git"
+    sCommand = "#{ sSystem } log #{ sUserFilter }"
 
-sCommand = "#{ sSystem } log #{ sUserFilter }"
+    oExecOptions =
+        maxBuffer: 1048576
+        cwd: sRepoPath
 
-# --- exec command
-
-spinner.start 50
-exec sCommand, { maxBuffer: 1048576 }, ( oError, sStdOut, sStdErr ) ->
-    spinner.stop()
-    if oError
-        console.log error "✘ #{ oError }."
-        process.exit 1
-    iTotal = 0
-    iPrevStamp = null
-    iGap *= 60000
-    sDateFilter = if sSystem is "git" then "Date:" else "date:"
-    for sLine in sStdOut.split( require( "os" ).EOL ).reverse()
-        if sLine.search( sDateFilter ) isnt -1
-            iCurrentStamp = ( new Date( sLine.substr( sDateFilter ).trim() ) ).getTime()
-            iTotal += iDifference if iPrevStamp and iPrevStamp < iCurrentStamp and ( iDifference = iCurrentStamp - iPrevStamp ) < iGap
-            iPrevStamp = iCurrentStamp
-    iTotal /= 1000
-    iMinutes = if ( iMinutes = Math.floor( iTotal / 60 ) ) > 60 then ( iMinutes % 60 ) else iMinutes
-    iHours = Math.floor iTotal / 3600
-    if tankipas.raw
-        console.log iTotal
-    else
-        sUserString = if sUser then " (for #{ chalk.cyan( sUser ) })" else ""
-        console.log chalk.green( "✔" ), "Time spent on project#{ sUserString }: ±#{ chalk.yellow( iHours ) } hours & #{ chalk.yellow( iMinutes ) } minutes."
-    process.exit 0
+    exec sCommand, oExecOptions, ( oError, sStdOut, sStdErr ) ->
+        return fNext? oError if oError
+        iTotal = 0
+        iPrevStamp = null
+        iGap *= 60000
+        sDateFilter = if sSystem is "git" then "Date:" else "date:"
+        for sLine in sStdOut.split( require( "os" ).EOL ).reverse()
+            if sLine.search( sDateFilter ) isnt -1
+                iCurrentStamp = ( new Date( sLine.substr( sDateFilter ).trim() ) ).getTime()
+                iTotal += iDifference if iPrevStamp and iPrevStamp < iCurrentStamp and ( iDifference = iCurrentStamp - iPrevStamp ) < iGap
+                iPrevStamp = iCurrentStamp
+        iTotal /= 1000
+        fNext? null, iTotal

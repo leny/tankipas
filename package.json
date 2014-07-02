@@ -33,8 +33,9 @@
     }
   ],
   "bin": {
-    "tankipas": "lib/tankipas.js"
+    "tankipas": "lib/cli.js"
   },
+  "main": "lib/tankipas",
   "engines": {
     "node": ">= 0.10.0"
   },
