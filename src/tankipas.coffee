@@ -86,7 +86,7 @@ exec sCommand, { maxBuffer: 1048576 }, ( oError, sStdOut, sStdErr ) ->
             iTotal += iDifference if iPrevStamp and iPrevStamp < iCurrentStamp and ( iDifference = iCurrentStamp - iPrevStamp ) < iGap
             iPrevStamp = iCurrentStamp
     iTotal /= 1000
-    iMinutes = if ( iMinutes = Math.floor( iTotal / 60 ) ) > 60 then Math.floor( iMinutes / 60 ) % 60 else iMinutes
+    iMinutes = if ( iMinutes = Math.floor( iTotal / 60 ) ) > 60 then ( iMinutes % 60 ) else iMinutes
     iHours = Math.floor iTotal / 3600
     if tankipas.raw
         console.log iTotal
