@@ -32,3 +32,11 @@ tankipas
 
 sRepoPath = path.resolve process.cwd(), ( tankipas.args[ 0 ] ? "." )
 
+# --- get system
+
+sSystem = "mercurial" if tankipas.system?.toLowerCase() in [ "mercurial", "hg" ]
+sSystem = "git" if tankipas.system?.toLowerCase() in [ "git", "github" ]
+
+unless sSystem # no system given, try to guess
+    sSystem = "mercurial" if fs.existsSync "#{ sRepoPath }/.hg"
+    sSystem = "git" if fs.existsSync "#{ sRepoPath }/.git"
