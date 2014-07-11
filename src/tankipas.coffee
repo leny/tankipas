@@ -29,6 +29,7 @@ module.exports = ( sRepoPath, oOptions = {}, fNext = null ) ->
     sSystem = oOptions.system
     iGap = +oOptions.gap ? 120
     sUser = oOptions.user
+    sSinceCommit = oOptions.commit
 
     # check system
 
@@ -64,7 +65,10 @@ module.exports = ( sRepoPath, oOptions = {}, fNext = null ) ->
         iPrevStamp = null
         iGap *= 60000
         sDateFilter = if sSystem is "git" then "Date:" else "date:"
+        sCommitFilter = if sSystem is "git" then "commit" else "changeset:"
         for sLine in sStdOut.split( require( "os" ).EOL ).reverse()
+            if sSinceCommit and sLine.search( sCommitFilter ) isnt -1
+                iTotal = 0 if sLine.search( sSinceCommit ) isnt -1
             if sLine.search( sDateFilter ) isnt -1
                 iCurrentStamp = ( new Date( sLine.substr( sDateFilter ).trim() ) ).getTime()
                 iTotal += iDifference if iPrevStamp and iPrevStamp < iCurrentStamp and ( iDifference = iCurrentStamp - iPrevStamp ) < iGap
