@@ -95,6 +95,10 @@ Output usage information.
 ##### version (`-v`,`--version`)
 
 Output **tankipas**' version number.
+
+## Usage as grunt plugin
+
+Please refer to the [grunt-tankipas](https://github.com/leny/grunt-tankipas) documentation.
     
 ## Contributing
 
@@ -110,7 +114,10 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
     
 - [x] add progress indicator
 - [x] node module version
-- [ ] deprecate `grunt-elapsed` module and create `grunt-tankipas`
+- [x] deprecate `grunt-elapsed` module and create `grunt-tankipas`
+- [ ] add 'since commit' option
+- [ ] add branch support
+- [ ] add multiple users support
 - [ ] add support for **svn**
 - [ ] allow to give one or multiple paths
 
