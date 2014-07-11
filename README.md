@@ -65,6 +65,7 @@ Using **tankipas** is simple, from inside a `git` or `mercurial` repo:
         -s, --system <system>  force the version system to analyse (by default, try to guess)
         -g, --gap <amount>     number of minutes above wich the time between two commits is ignored in the total.
         -u, --user <user>      use only the commits of the given user.
+        -c, --commit <commit>  compute the result since the given commit.
         -r, --raw              show raw result, as number of seconds spent on the project.
     
 #### Options
@@ -83,6 +84,10 @@ For now, **tankipas** supports `git` and `mercurial` systems.
 ##### user (`-u`,`--user <user>`)
 
 If you work as a team, you can be interested to filters the commits and compute the time of only one user, which you can precise with the `user` option.
+
+##### commit (`-c`,`--commit <commit>`)
+
+The result will be computed since the given commit reference, instead of the beginning of the project.
 
 ##### raw (`-r`,`--raw`)
 
@@ -115,7 +120,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 - [x] add progress indicator
 - [x] node module version
 - [x] deprecate `grunt-elapsed` module and create `grunt-tankipas`
-- [ ] add 'since commit' option
+- [x] add 'since commit' option
 - [ ] add branch support
 - [ ] add multiple users support
 - [ ] add support for **svn**
