@@ -1,6 +1,6 @@
 {
   "name": "tankipas",
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Compute approximate development time spent on a project, using logs from version control system.",
   "keywords": [
     "commandline",
@@ -52,7 +52,7 @@
     "grunt-contrib-concat": "^0.4.0"
   },
   "dependencies": {
-    "chalk": "^0.4.0",
+    "chalk": "^0.5.1",
     "commander": "^2.2.0",
     "simple-spinner": "0.0.1",
     "which": "^1.0.5"
