@@ -40,6 +40,8 @@ Using **tankipas** is simple, after require it :
     - `system`: force the version system to analyse (by default, try to guess)
     - `gap`: number of minutes above wich the time between two commits is ignored in the total (default to `120`)
     - `user`: use only the commits of the given user
+    - `commit`: compute the result since the given commit
+    - `branch`: use only the commits of the given branch
 - `fCallback` is the callback function, which returns two arguments : 
     - `oError`: if an error occurs during the process
     - `iTotal`: the total of time spent on the project, in seconds
@@ -66,6 +68,7 @@ Using **tankipas** is simple, from inside a `git` or `mercurial` repo:
         -g, --gap <amount>     number of minutes above wich the time between two commits is ignored in the total.
         -u, --user <user>      use only the commits of the given user.
         -c, --commit <commit>  compute the result since the given commit.
+        -b, --branch <branch>  use only the commits of the given branch.
         -r, --raw              show raw result, as number of seconds spent on the project.
     
 #### Options
@@ -89,6 +92,10 @@ If you work as a team, you can be interested to filters the commits and compute 
 
 The result will be computed since the given commit reference, instead of the beginning of the project.
 
+##### branch (`-b`,`--branch <branch>`)
+
+You can filters the commits and compute the time of only one branch, which you can precise with the `branch` option.
+
 ##### raw (`-r`,`--raw`)
 
 By default, **tankipas** outputs his result in a *human-readable* format. If you want to use the result with another tool, the `raw` option will output results as an amount of `seconds`.
@@ -111,6 +118,8 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+* **0.4.0**: Add `branch` option (*13/07/14*)
+* **0.3.0**: Add `commit` option (*11/07/14*)
 * **0.2.0**: Node module version, raw returns seconds instead of minutes (*03/07/14*)
 * **0.1.1**: Fix *rounding* issue for minutes (*02/07/14*)
 * **0.1.0**: Initial release (*02/07/14*)
@@ -121,7 +130,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 - [x] node module version
 - [x] deprecate `grunt-elapsed` module and create `grunt-tankipas`
 - [x] add 'since commit' option
-- [ ] add branch support
+- [x] add branch support
 - [ ] add multiple users support
 - [ ] add support for **svn**
 - [ ] allow to give one or multiple paths
