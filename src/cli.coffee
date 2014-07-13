@@ -30,6 +30,7 @@ error = chalk.bold.red
     .option "-s, --system <system>", "force the version system to analyse (by default, try to guess)"
     .option "-g, --gap <amount>", "number of minutes above wich the time between two commits is ignored in the total.", 120
     .option "-u, --user <user>", "use only the commits of the given user."
+    .option "-b, --branch <branch>", "use only the commits of the given branch."
     .option "-r, --raw", "show raw result, as number of minutes spent on the project."
     .option "-c, --commit <commit>", "compute the result since the given commit."
     .parse process.argv
@@ -57,6 +58,10 @@ if isNaN iGap
 
 sUser = program.user ? no
 
+# ----- get branch
+
+sBranch = program.branch ? no
+
 # ----- get since commit
 
 sSinceCommit = program.commit ? no
@@ -65,6 +70,7 @@ oOptions =
     system: sSystem
     gap: iGap
     user: sUser
+    branch: sBranch
     commit: sSinceCommit
 
 # --- get tankipas total

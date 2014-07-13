@@ -30,6 +30,7 @@ module.exports = ( sRepoPath, oOptions = {}, fNext = null ) ->
     iGap = +oOptions.gap ? 120
     sUser = oOptions.user
     sSinceCommit = oOptions.commit
+    sBranch = oOptions.branch
 
     # check system
 
@@ -53,7 +54,11 @@ module.exports = ( sRepoPath, oOptions = {}, fNext = null ) ->
     sUserFilter = "-u #{ sUser }" if sUser and sSystem is "hg"
     sUserFilter = "--author #{ sUser }" if sUser and sSystem is "git"
 
-    sCommand = "#{ sSystem } log #{ sUserFilter }"
+    sBranchFilter = ""
+    sBranchFilter = "-b #{ sBranch }" if sBranch and sSystem is "hg"
+    sBranchFilter = "$(git merge-base master #{ sBranch })..HEAD" if sBranch and sSystem is "git"
+
+    sCommand = "#{ sSystem } log #{ sUserFilter } #{ sBranchFilter }"
 
     oExecOptions =
         maxBuffer: 1048576
