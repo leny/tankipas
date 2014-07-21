@@ -1,5 +1,5 @@
 ###
- * konvèti
+ * tankipas
  * https://github.com/leny/tankipas
  *
  * Copyright (c) 2014 Leny
