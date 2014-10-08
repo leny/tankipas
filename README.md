@@ -118,6 +118,7 @@ In lieu of a formal styleguide, take care to maintain the existing coding style.
 
 ## Release History
 
+* **0.4.1**: Update dependencies (*08/10/14*)
 * **0.4.0**: Add `branch` option (*13/07/14*)
 * **0.3.0**: Add `commit` option (*11/07/14*)
 * **0.2.0**: Node module version, raw returns seconds instead of minutes (*03/07/14*)
