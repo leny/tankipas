@@ -1,6 +1,6 @@
 # tankipas
 
-[![NPM version](http://img.shields.io/npm/v/tankipas.svg)](https://www.npmjs.org/package/tankipas) ![Dependency Status](https://david-dm.org/leny/tankipas.svg) ![Downloads counter](http://img.shields.io/npm/dm/tankipas.svg)
+[![NPM version](http://img.shields.io/npm/v/tankipas.svg)](https://www.npmjs.org/package/tankipas) ![Dependency Status](https://david-dm.org/leny/tankipas.svg) ![Downloads counter](http://img.shields.io/npm/dm/tankipas.svg) [![No Maintenance Intended](http://unmaintained.tech/badge.svg)](http://unmaintained.tech/)
 
 > Compute approximate development time spent on a project, using logs from version control system.
 
